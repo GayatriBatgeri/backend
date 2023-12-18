@@ -1,9 +1,16 @@
-// db.js
-const baseurl = process.env.DB_NAME;
 const mongoose = require("mongoose");
-mongoose.connect(`mongodb://127.0.0.1:27017/${baseurl}`);
-const connectDB = () => {
-  console.log("MongoDb connected !!");
+require("dotenv").config();
+const connectDb = async () => {
+  try {
+    const connect = await mongoose.connect(process.env.CONNECTION_STRING);
+    console.log(
+      "Connection Established!!",
+      connect.connection.host,
+      connect.connection.name
+    );
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
 };
-
-module.exports = connectDB;
+module.exports = connectDb;
